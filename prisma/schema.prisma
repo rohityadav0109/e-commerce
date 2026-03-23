@@ -29,6 +29,6 @@ model Order {
   total     Float
   status    String    @default("PENDING")
   products  Product[]
-  createdAt DateTime  @default(now())
+  createdAt DateTime  @now()
   updatedAt DateTime  @updatedAt
 }
