@@ -7,14 +7,22 @@ const globalForPrisma = globalThis as unknown as { prisma: PrismaClient }
 export const prisma = globalForPrisma.prisma ?? new PrismaClient()
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 
-export async function GET(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url)
-    const category = searchParams.get('category')
-    const sort = searchParams.get('sort')
-    const minPrice = searchParams.get('minPrice')
-    const maxPrice = searchParams.get('maxPrice')
+// Fallback filter/sort for static data
+function applyFilters(products: any[], category: string | null, sort: string | null) {
+  let result = category ? products.filter(p => p.category === category) : [...products]
+  if (sort === 'price_asc') result.sort((a, b) => a.price - b.price)
+  else if (sort === 'price_desc') result.sort((a, b) => b.price - a.price)
+  return result
+}
 
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url)
+  const category = searchParams.get('category')
+  const sort = searchParams.get('sort')
+  const minPrice = searchParams.get('minPrice')
+  const maxPrice = searchParams.get('maxPrice')
+
+  try {
     const where: any = {}
     if (category) where.category = category
     if (minPrice || maxPrice) {
@@ -29,7 +37,7 @@ export async function GET(request: NextRequest) {
 
     let products = await prisma.product.findMany({ where, orderBy })
 
-    // If db is empty, fall back to static data + seed
+    // If db is empty, seed then return
     if (products.length === 0) {
       for (const p of featuredProducts) {
         await prisma.product.create({
@@ -40,8 +48,13 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json(products)
-  } catch (error: any) {
-    return NextResponse.json({ error: 'Failed to fetch', details: error.message }, { status: 500 })
+  } catch {
+    // Fallback to static data when DB unavailable (e.g. Vercel free tier / SQLite)
+    const fallback = applyFilters(
+      featuredProducts.map((p, i) => ({ ...p, id: String(p.id ?? i + 1), featured: true, createdAt: new Date().toISOString() })),
+      category, sort
+    )
+    return NextResponse.json(fallback)
   }
 }
 
