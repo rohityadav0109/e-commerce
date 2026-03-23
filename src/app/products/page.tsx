@@ -1,6 +1,11 @@
 "use client"
 
-import { Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ProductCard from "@/components/ProductCard";
+import { Product } from "@/lib/data";
+import { useSearchParams } from "next/navigation";
 
 function ProductsContent() {
   const searchParams = useSearchParams();
