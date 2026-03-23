@@ -1,33 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from 'next/font/google';
 import "./globals.css";
+import { CartProvider } from "@/lib/CartContext";
+import CartDrawer from "@/components/CartDrawer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700', '800'] });
 
 export const metadata: Metadata = {
-  title: "Astra R-Commerce | Premium Digital Marketplace",
-  description: "Experience the future of ecommerce with Astra. Sleek, fast, and beautifully crafted for the modern shopper.",
+  title: "RKTECH | Premium Fashion Store",
+  description: "Elevate your style with RKTECH — curated premium clothing for the modern individual.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>
-        <main className="main-content">
+    <html lang="en">
+      <body className={`${inter.className} min-h-screen bg-[#0f0f0f] text-[#f5f5f5] antialiased`}>
+        <CartProvider>
           {children}
-        </main>
+          <CartDrawer />
+        </CartProvider>
       </body>
     </html>
   );

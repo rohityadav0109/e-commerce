@@ -1,54 +1,54 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import CategoryNav from "@/components/CategoryNav";
 import ProductCard from "@/components/ProductCard";
+import Footer from "@/components/Footer";
 import { featuredProducts } from "@/lib/data";
 
 export default function Home() {
   return (
-    <>
+    <div className="min-h-screen flex flex-col bg-[#0f0f0f]">
       <Navbar />
-      <Hero />
-      
-      <section className="py-20 bg-[var(--background)]">
-        <div className="container px-6 mx-auto">
+      <main className="flex-1 w-full flex flex-col">
+        
+        <Hero />
+        <CategoryNav />
+
+        {/* Section: Featured Products */}
+        <section className="w-full max-w-[1440px] mx-auto px-6 md:px-12 py-20">
           <div className="flex items-end justify-between mb-12">
             <div>
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
-                FEATURED <span className="text-[var(--primary)]">COLLECTION</span>
+              <p className="text-[#f97316] text-[11px] font-bold uppercase tracking-[0.2em] mb-2">Handpicked For You</p>
+              <h2 className="text-4xl font-black text-white tracking-tight">
+                Trending Now
+                <span className="text-[#f97316]">.</span>
               </h2>
-              <p className="text-[var(--muted)] text-lg">Curated selections from the world's most innovative brands.</p>
             </div>
-            <button className="hidden md:flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-[var(--primary)] hover:text-[var(--secondary)] transition-colors">
-              View All Products
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </button>
+            <a href="/products" className="hidden md:flex items-center gap-2 text-[#9ca3af] hover:text-[#f97316] transition-colors text-[12px] font-semibold uppercase tracking-widest group">
+              View All
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="group-hover:translate-x-1 transition-transform"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {featuredProducts.map((product) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {featuredProducts.slice(0, 8).map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
-          
-          <div className="mt-12 md:hidden text-center">
-             <button className="w-full py-4 rounded-xl border border-[var(--glass-border)] bg-[var(--glass-bg)] text-sm font-bold uppercase tracking-widest text-[var(--foreground)]">
-              View All Products
-            </button>
+        </section>
+
+        {/* CTA Banner */}
+        <section className="w-full bg-gradient-to-r from-[#f97316] to-[#fbbf24] py-20 px-6">
+          <div className="max-w-[800px] mx-auto text-center">
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">Become a Seller on RKTECH</h2>
+            <p className="text-white/80 text-lg font-light mb-8 max-w-lg mx-auto">Have a brand or craft? Reach thousands of fashion lovers across India.</p>
+            <a href="/admin" className="inline-block bg-[#0f0f0f] text-white font-black text-[12px] uppercase tracking-[0.15em] px-10 py-4 rounded shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:scale-105 transition-all">
+              Open Your Store
+            </a>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <footer className="py-12 border-t border-[var(--glass-border)] bg-[rgba(255,255,255,0.02)]">
-        <div className="container px-6 mx-auto text-center">
-          <p className="text-[var(--muted)] text-sm">&copy; 2026 Astra R-Commerce. All rights reserved.</p>
-        </div>
-      </footer>
-
-      <style jsx>{`
-        .container {
-          max-width: 1200px;
-        }
-      `}</style>
-    </>
+      </main>
+      <Footer />
+    </div>
   );
 }

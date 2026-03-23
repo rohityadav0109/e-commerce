@@ -1,58 +1,85 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Product } from "@/lib/data";
+import { useCart } from "@/lib/CartContext";
 
-interface ProductCardProps {
-  product: Product;
-}
+export default function ProductCard({ product }: { product: Product }) {
+  const { addToCart } = useCart();
+  const router = useRouter();
+  const discountedPrice = Math.floor(product.price * 1.5);
+  const discount = Math.round((1 - product.price / discountedPrice) * 100);
 
-export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <div className="group glass-card overflow-hidden cursor-pointer">
-      <div className="relative aspect-[4/5] overflow-hidden">
-        <img 
-          src={product.image} 
-          alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
-        <div className="absolute top-4 left-4">
-          <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-[var(--primary)] text-white">
-            {product.category}
-          </span>
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)] to-transparent opacity-0 group-hover:opacity-40 transition-opacity"></div>
-        <button className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[80%] py-3 rounded-xl bg-white text-black font-bold text-sm translate-y-10 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-          Add to Cart
-        </button>
-      </div>
+    <div className="card-dark rounded-xl overflow-hidden flex flex-col cursor-pointer group">
       
-      <div className="p-5">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-1">
-            {[...Array(5)].map((_, i) => (
-              <svg 
-                key={i}
-                xmlns="http://www.w3.org/2000/svg" 
-                width="12" height="12" 
-                viewBox="0 0 24 24" 
-                fill={i < Math.floor(product.rating) ? "var(--primary)" : "none"} 
-                stroke={i < Math.floor(product.rating) ? "var(--primary)" : "var(--muted)"}
-                strokeWidth="2"
-              >
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-              </svg>
-            ))}
-            <span className="text-[10px] text-[var(--muted)] ml-1">({product.rating})</span>
-          </div>
-        </div>
-        <h3 className="text-xl font-bold mb-1 group-hover:text-[var(--primary)] transition-colors">{product.name}</h3>
-        <p className="text-[var(--muted)] text-sm mb-4">Professional grade performance in index.</p>
-        <div className="flex items-center justify-between">
-          <span className="text-2xl font-black text-white">${product.price}</span>
-          <button className="p-2 rounded-full border border-[var(--glass-border)] hover:bg-[var(--glass-bg)] transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+      {/* Image */}
+      <div
+        className="relative overflow-hidden bg-[#242424] aspect-[4/5]"
+        onClick={() => router.push(`/products/${product.id}`)}
+      >
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+        />
+        {/* Overlay on hover */}
+        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          <button
+            onClick={(e) => { e.stopPropagation(); router.push(`/products/${product.id}`); }}
+            className="bg-white text-[#0f0f0f] text-[11px] font-black uppercase tracking-[0.1em] px-6 py-2.5 rounded transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
+          >
+            View Details
           </button>
         </div>
+
+        {/* Badges */}
+        <div className="absolute top-3 left-3 flex flex-col gap-2">
+          {discount > 0 && (
+            <span className="bg-[#f97316] text-white text-[10px] font-black px-2 py-1 rounded uppercase tracking-wide">
+              {discount}% OFF
+            </span>
+          )}
+          {product.rating >= 4.5 && (
+            <span className="bg-[#fbbf24] text-[#0f0f0f] text-[10px] font-black px-2 py-1 rounded uppercase tracking-wide">
+              🔥 Hot
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Info */}
+      <div className="flex flex-col flex-1 p-4 bg-[#1a1a1a]">
+        <p className="text-[#f97316] text-[10px] font-bold uppercase tracking-[0.15em] mb-1">{product.category}</p>
+        <h3
+          className="text-white text-sm font-semibold leading-snug mb-2 line-clamp-2 hover:text-[#f97316] transition-colors cursor-pointer"
+          onClick={() => router.push(`/products/${product.id}`)}
+        >
+          {product.name}
+        </h3>
+
+        {/* Rating */}
+        <div className="flex items-center gap-1.5 mb-3">
+          <div className="flex">
+            {[1,2,3,4,5].map(i => (
+              <svg key={i} xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill={i <= Math.floor(product.rating) ? "#f97316" : "#2e2e2e"} stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            ))}
+          </div>
+          <span className="text-[#9ca3af] text-[10px]">({product.rating})</span>
+        </div>
+
+        {/* Pricing */}
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-lg font-black text-white">₹{product.price.toLocaleString('en-IN')}</span>
+          <span className="text-[#9ca3af] text-sm line-through">₹{discountedPrice.toLocaleString('en-IN')}</span>
+        </div>
+
+        <button
+          onClick={() => addToCart(product)}
+          className="mt-auto w-full btn-orange text-[11px] py-3 rounded-lg"
+        >
+          Add to Bag
+        </button>
       </div>
     </div>
   );

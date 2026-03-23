@@ -1,59 +1,97 @@
-"use client";
-
 import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
-      {/* Background Decorative Elements */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[var(--primary)] opacity-10 blur-[120px] -z-10 rounded-full"></div>
-      
-      <div className="container px-6 mx-auto text-center relative z-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm mb-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
-          <span className="w-2 h-2 rounded-full bg-[var(--primary)]"></span>
-          <span className="text-xs font-semibold tracking-wide uppercase text-[var(--muted)]">New Season Collection Out Now</span>
-        </div>
-        
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-[1.05] tracking-tight animate-fade-in" style={{ animationDelay: "0.2s" }}>
-          REDEFINE YOUR <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)]">DIGITAL REALM</span>
-        </h1>
-        
-        <p className="max-w-2xl mx-auto text-lg md:text-xl text-[var(--muted)] mb-10 leading-relaxed animate-fade-in" style={{ animationDelay: "0.3s" }}>
-          Experience the pinnacle of ecommerce. Discover curated collections, 
-          unmatched performance, and a design that feels like the future.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in" style={{ animationDelay: "0.4s" }}>
-          <Link href="/products" className="px-8 py-4 rounded-full bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-white font-bold text-lg hover:shadow-[0_0_20px_rgba(139,92,246,0.4)] transition-all">
-            Shop Collection
-          </Link>
-          <Link href="/about" className="px-8 py-4 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-md text-[var(--foreground)] font-bold text-lg hover:bg-[rgba(255,255,255,0.1)] transition-all">
-            Learn More
-          </Link>
-        </div>
+    <section className="relative w-full min-h-[90vh] bg-[#0f0f0f] flex items-center overflow-hidden">
+      {/* Background orange gradient glow */}
+      <div className="absolute top-0 right-0 w-[60%] h-full bg-gradient-to-l from-[#f97316]/10 via-[#f97316]/5 to-transparent pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#f97316]/5 rounded-full blur-3xl pointer-events-none"></div>
 
-        {/* Floating Stats or Badges */}
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto animate-fade-in" style={{ animationDelay: "0.5s" }}>
-          {[
-            { label: "Products", value: "10k+" },
-            { label: "Happy Customers", value: "50k+" },
-            { label: "Fast Delivery", value: "24h" },
-            { label: "Secure Payment", value: "100%" },
-          ].map((stat, i) => (
-            <div key={i} className="flex flex-col items-center">
-              <span className="text-3xl font-bold text-[var(--foreground)] mb-1">{stat.value}</span>
-              <span className="text-xs uppercase tracking-widest text-[var(--muted)] font-bold">{stat.label}</span>
+      <div className="relative max-w-[1440px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-20">
+        
+        {/* Left — Text Content */}
+        <div className="flex flex-col items-start">
+          <div className="inline-flex items-center gap-2 bg-[#f97316]/10 border border-[#f97316]/30 rounded-full px-4 py-2 mb-8">
+            <span className="w-2 h-2 rounded-full bg-[#f97316] animate-pulse"></span>
+            <span className="text-[#f97316] text-[11px] font-bold tracking-[0.15em] uppercase">New Season Collection</span>
+          </div>
+
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-black text-white leading-[1] mb-6 tracking-tight">
+            DRESS<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f97316] to-[#fbbf24]">BOLD.</span>
+          </h1>
+
+          <p className="text-[#9ca3af] text-lg font-light leading-relaxed max-w-md mb-10">
+            Discover curated fashion that speaks your language. From bold streetwear to traditional elegance — own every room you walk into.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-[#f97316] to-[#ea580c] text-white font-bold text-[12px] tracking-[0.12em] uppercase px-8 py-4 rounded shadow-[0_4px_20px_rgba(249,115,22,0.4)] hover:shadow-[0_8px_30px_rgba(249,115,22,0.6)] hover:-translate-y-0.5 transition-all"
+            >
+              Shop Collection
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </Link>
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-2 border border-[#2e2e2e] text-[#9ca3af] hover:border-[#f97316] hover:text-[#f97316] font-bold text-[12px] tracking-[0.12em] uppercase px-8 py-4 rounded transition-all"
+            >
+              Our Story
+            </Link>
+          </div>
+
+          {/* Stats */}
+          <div className="flex items-center gap-8 mt-14 border-t border-[#2e2e2e] pt-8">
+            <div>
+              <p className="text-2xl font-black text-white">10K+</p>
+              <p className="text-[11px] text-[#9ca3af] uppercase tracking-widest mt-1">Happy Customers</p>
             </div>
-          ))}
+            <div className="w-px h-10 bg-[#2e2e2e]"></div>
+            <div>
+              <p className="text-2xl font-black text-white">500+</p>
+              <p className="text-[11px] text-[#9ca3af] uppercase tracking-widest mt-1">Styles Available</p>
+            </div>
+            <div className="w-px h-10 bg-[#2e2e2e]"></div>
+            <div>
+              <p className="text-2xl font-black text-white">4.9★</p>
+              <p className="text-[11px] text-[#9ca3af] uppercase tracking-widest mt-1">Avg. Rating</p>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <style jsx>{`
-        .container {
-          max-width: 1200px;
-        }
-      `}</style>
+        {/* Right — Image Grid */}
+        <div className="hidden lg:grid grid-cols-2 gap-4 h-[580px]">
+          <div className="row-span-2 rounded-2xl overflow-hidden bg-[#1a1a1a] border border-[#2e2e2e]">
+            <img
+              src="https://images.unsplash.com/photo-1552902865-b72c031ac5ea?q=80&w=800&auto=format&fit=crop"
+              alt="Fashion Model"
+              className="w-full h-full object-cover opacity-90 hover:opacity-100 hover:scale-105 transition-all duration-700"
+            />
+          </div>
+          <div className="rounded-2xl overflow-hidden bg-[#1a1a1a] border border-[#2e2e2e] relative group">
+            <img
+              src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=800&auto=format&fit=crop"
+              alt="Men's Fashion"
+              className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+              <span className="text-white text-[11px] font-bold uppercase tracking-widest">Men's Wear</span>
+            </div>
+          </div>
+          <div className="rounded-2xl overflow-hidden bg-[#1a1a1a] border border-[#2e2e2e] relative group">
+            <img
+              src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=800&auto=format&fit=crop"
+              alt="Women's Fashion"
+              className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+              <span className="text-white text-[11px] font-bold uppercase tracking-widest">Women's Wear</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </section>
   );
 }
